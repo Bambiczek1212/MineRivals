@@ -62,8 +62,7 @@ small{color:#aaa;display:block;margin-top:8px;line-height:1.5}
 <div id="rot">Obróć telefon poziomo</div>
 <div id="scope"></div><div id="flash"></div>
 <div id="ui"><div class="card" id="card"></div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
+<script type="text/plain" id="gamecode">
 const $=id=>document.getElementById(id);
 let P={nick:"",av:"#4caf50",xp:0,skin:null};
 try{const s=JSON.parse(localStorage.getItem("bp")||"null");if(s)P={...P,...s}}catch(e){}
@@ -1047,4 +1046,14 @@ if(SET.eye)document.body.classList.add("eye");
 if(SET.lang==="en")setLang("en");
 requestAnimationFrame(frame);
 screenAccount();
+</script>
+<script>
+(function(){
+ var U=["https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js","https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js","https://unpkg.com/three@0.128.0/build/three.min.js"];
+ function fail(){var c=document.getElementById("card");if(c)c.innerHTML="<h1>Nie udało się wczytać gry</h1><p>Nie mogę pobrać biblioteki three.js (cdnjs, jsDelivr, unpkg). Sprawdź internet, wyłącz blokadę reklam albo filtr i odśwież stronę.</p><button onclick=\"location.reload()\">Odśwież</button>"}
+ function run(){var s=document.createElement("script");s.text=document.getElementById("gamecode").textContent;document.body.appendChild(s)}
+ function load(i){if(window.THREE){run();return}if(i>=U.length){fail();return}
+  var s=document.createElement("script"),done=false,next=function(){if(done)return;done=true;load(i+1)};
+  s.src=U[i];s.onload=function(){if(done)return;done=true;if(window.THREE)run();else load(i+1)};s.onerror=next;setTimeout(next,8000);document.head.appendChild(s)}
+ load(0)})();
 </script></body></html>
